@@ -4,8 +4,8 @@ import { ChainId } from '@uniswap/sdk-core';
 import _ from 'lodash';
 import stats from 'stats-lite';
 
-import { UniswapInterfaceMulticall__factory } from '../types/v3/factories/UniswapInterfaceMulticall__factory';
 import { UniswapInterfaceMulticall } from '../types/v3/UniswapInterfaceMulticall';
+import { UniswapInterfaceMulticall__factory } from '../types/v3/factories/UniswapInterfaceMulticall__factory';
 import { UNISWAP_MULTICALL_ADDRESSES } from '../util/addresses';
 import { log } from '../util/log';
 
@@ -62,73 +62,78 @@ export class UniswapMulticallProvider extends IMulticallProvider<UniswapMultical
     blockNumber: BigNumber;
     results: Result<TReturn>[];
   }> {
-    const {
-      addresses,
-      contractInterface,
-      functionName,
-      functionParams,
-      providerConfig,
-    } = params;
+    try {
+      const {
+        addresses,
+        contractInterface,
+        functionName,
+        functionParams,
+        providerConfig,
+      } = params;
+      const blockNumberOverride = providerConfig?.blockNumber ?? undefined;
 
-    const blockNumberOverride = providerConfig?.blockNumber ?? undefined;
+      const fragment = contractInterface.getFunction(functionName);
+      console.log('params', functionParams, addresses, functionName, fragment)
+      const callData = contractInterface.encodeFunctionData(
+        fragment,
+        functionParams
+      );
 
-    const fragment = contractInterface.getFunction(functionName);
-    const callData = contractInterface.encodeFunctionData(
-      fragment,
-      functionParams
-    );
-
-    const calls = _.map(addresses, (address) => {
-      return {
-        target: address,
-        callData,
-        gasLimit: this.gasLimitPerCall,
-      };
-    });
-
-    log.debug(
-      { calls },
-      `About to multicall for ${functionName} across ${addresses.length} addresses`
-    );
-
-    const { blockNumber, returnData: aggregateResults } =
-      await this.multicallContract.callStatic.multicall(calls, {
-        blockTag: blockNumberOverride,
+      const calls = _.map(addresses, (address) => {
+        return {
+          target: address,
+          callData,
+          gasLimit: this.gasLimitPerCall,
+        };
       });
 
-    const results: Result<TReturn>[] = [];
+      log.debug(
+        { calls },
+        `About to multicall for ${functionName} across ${addresses.length} addresses`
+      );
 
-    for (let i = 0; i < aggregateResults.length; i++) {
-      const { success, returnData } = aggregateResults[i]!;
-
-      // Return data "0x" is sometimes returned for invalid calls.
-      if (!success || returnData.length <= 2) {
-        log.debug(
-          { result: aggregateResults[i] },
-          `Invalid result calling ${functionName} on address ${addresses[i]}`
-        );
-        results.push({
-          success: false,
-          returnData,
+      const { blockNumber, returnData: aggregateResults } =
+        await this.multicallContract.callStatic.multicall(calls, {
+          blockTag: blockNumberOverride,
         });
-        continue;
+
+      const results: Result<TReturn>[] = [];
+
+      for (let i = 0; i < aggregateResults.length; i++) {
+        const { success, returnData } = aggregateResults[i]!;
+
+        // Return data "0x" is sometimes returned for invalid calls.
+        if (!success || returnData.length <= 2) {
+          log.debug(
+            { result: aggregateResults[i] },
+            `Invalid result calling ${functionName} on address ${addresses[i]}`
+          );
+          results.push({
+            success: false,
+            returnData,
+          });
+          continue;
+        }
+
+        results.push({
+          success: true,
+          result: contractInterface.decodeFunctionResult(
+            fragment,
+            returnData
+          ) as unknown as TReturn,
+        });
       }
 
-      results.push({
-        success: true,
-        result: contractInterface.decodeFunctionResult(
-          fragment,
-          returnData
-        ) as unknown as TReturn,
-      });
+      log.debug(
+        { results },
+        `Results for multicall on ${functionName} across ${addresses.length} addresses as of block ${blockNumber}`
+      );
+
+      return { blockNumber, results };
+    } catch (e){
+      console.error('uniswap callSameFunctionOnMultipleContracts error', e)
+      return { blockNumber: BigNumber.from(0), results: []}
     }
-
-    log.debug(
-      { results },
-      `Results for multicall on ${functionName} across ${addresses.length} addresses as of block ${blockNumber}`
-    );
-
-    return { blockNumber, results };
   }
 
   public async callSameFunctionOnContractWithMultipleParams<

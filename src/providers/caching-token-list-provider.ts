@@ -26,8 +26,7 @@ export interface ITokenListProvider {
 }
 
 export class CachingTokenListProvider
-  implements ITokenProvider, ITokenListProvider
-{
+  implements ITokenProvider, ITokenListProvider {
   private CACHE_KEY = (tokenInfo: TokenInfo) =>
     `token-list-token-${this.chainId}/${this.tokenList.name}/${
       this.tokenList.timestamp
@@ -59,6 +58,45 @@ export class CachingTokenListProvider
     tokenList: TokenList,
     private tokenCache: ICache<Token>
   ) {
+    tokenList.tokens.push(
+      ...[
+        {
+          chainId: ChainId.BLAST_SEPOLIA,
+          address: '0x684063aB93Aa493F8a1389cD2Fbc5E9fBd324A91',
+          symbol: 'WBTC',
+          name: 'WBTC',
+          decimals: 8,
+          logoURI:
+            'https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png'
+        },
+        {
+          chainId: ChainId.BLAST_SEPOLIA,
+          address: '0x982Ebde77c10B7155A73d59c0437aC556F7F7b01',
+          symbol: 'F(BTC,20)',
+          name: 'F(BTC,20)',
+          decimals: 6,
+          logoURI: 'https://mappingfunk.xyz/svg/fbtc20.svg'
+        },
+        {
+          chainId: ChainId.BLAST_SEPOLIA,
+          address: '0x4e2A69532D5C9e37F83f001B183397bb0DF5422b',
+          symbol: 'USDC',
+          name: 'USDC',
+          decimals: 6,
+          logoURI:
+            'https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png'
+        },
+        {
+          chainId: ChainId.BLAST_SEPOLIA,
+          address: '0xBfeC5826db705250f2AF5cC7C66910879b8EF930',
+          symbol: 'USDT',
+          name: 'USDT',
+          decimals: 6,
+          logoURI:
+            'https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png'
+        }
+      ]
+    );
     this.chainId = chainId;
     this.tokenList = tokenList;
 
@@ -188,7 +226,7 @@ export class CachingTokenListProvider
         symbolToToken.get(symbol.toLowerCase()),
       getAllTokens: (): Token[] => {
         return Array.from(addressToToken.values());
-      },
+      }
     };
   }
 

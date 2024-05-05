@@ -655,7 +655,13 @@ export const USDB_BLAST = new Token(
   'USDB',
   'USD Blast'
 )
-
+export const USDB_BLAST_SEPOLIA = new Token(
+  ChainId.BLAST_SEPOLIA,
+  '0x4200000000000000000000000000000000000022',
+  18,
+  'USDB',
+  'USD Blast Sepolia'
+)
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,

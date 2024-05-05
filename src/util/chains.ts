@@ -3,7 +3,7 @@ import {
   Currency,
   Ether,
   NativeCurrency,
-  Token,
+  Token
 } from '@uniswap/sdk-core';
 
 // WIP: Gnosis, Moonbeam
@@ -24,6 +24,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.AVALANCHE,
   ChainId.BASE,
   ChainId.BLAST,
+  ChainId.BLAST_SEPOLIA
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -36,6 +37,7 @@ export const V2_SUPPORTED = [
   ChainId.BASE,
   ChainId.BNB,
   ChainId.AVALANCHE,
+  ChainId.BLAST_SEPOLIA
 ];
 
 export const HAS_L1_FEE = [
@@ -47,7 +49,7 @@ export const HAS_L1_FEE = [
   ChainId.ARBITRUM_SEPOLIA,
   ChainId.BASE,
   ChainId.BASE_GOERLI,
-  ChainId.BLAST,
+  ChainId.BLAST
 ];
 
 export const NETWORKS_WITH_SAME_UNISWAP_ADDRESSES = [
@@ -56,7 +58,7 @@ export const NETWORKS_WITH_SAME_UNISWAP_ADDRESSES = [
   ChainId.OPTIMISM,
   ChainId.ARBITRUM_ONE,
   ChainId.POLYGON,
-  ChainId.POLYGON_MUMBAI,
+  ChainId.POLYGON_MUMBAI
 ];
 
 export const ID_TO_CHAIN_ID = (id: number): ChainId => {
@@ -101,6 +103,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.BASE_GOERLI;
     case 81457:
       return ChainId.BLAST;
+    case 168587773:
+      return ChainId.BLAST_SEPOLIA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -127,6 +131,7 @@ export enum ChainName {
   BASE = 'base-mainnet',
   BASE_GOERLI = 'base-goerli',
   BLAST = 'blast-mainnet',
+  BLAST_SEPOLIA = 'blast-sepolia'
 }
 
 export enum NativeCurrencyName {
@@ -144,52 +149,52 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.MAINNET]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.GOERLI]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.SEPOLIA]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.OPTIMISM]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.OPTIMISM_GOERLI]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.OPTIMISM_SEPOLIA]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.ARBITRUM_ONE]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.ARBITRUM_GOERLI]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.ARBITRUM_SEPOLIA]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.POLYGON]: ['MATIC', '0x0000000000000000000000000000000000001010'],
   [ChainId.POLYGON_MUMBAI]: [
     'MATIC',
-    '0x0000000000000000000000000000000000001010',
+    '0x0000000000000000000000000000000000001010'
   ],
   [ChainId.CELO]: ['CELO'],
   [ChainId.CELO_ALFAJORES]: ['CELO'],
@@ -199,18 +204,23 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.AVALANCHE]: [
     'AVAX',
     'AVALANCHE',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.BASE]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
   [ChainId.BLAST]: [
     'ETH',
     'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   ],
+  [ChainId.BLAST_SEPOLIA]: [
+    'ETH',
+    'ETHER',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+  ]
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -233,6 +243,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.AVALANCHE]: NativeCurrencyName.AVALANCHE,
   [ChainId.BASE]: NativeCurrencyName.ETHER,
   [ChainId.BLAST]: NativeCurrencyName.ETHER,
+  [ChainId.BLAST_SEPOLIA]: NativeCurrencyName.ETHER
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -277,6 +288,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.BASE_GOERLI;
     case 81457:
       return ChainName.BLAST;
+    case 168587773:
+      return ChainName.BLAST_SEPOLIA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -491,6 +504,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     'WETH',
     'Wrapped Ether'
   ),
+  [ChainId.BLAST_SEPOLIA]: new Token(
+    ChainId.BLAST_SEPOLIA,
+    '0x4200000000000000000000000000000000000023',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  )
 };
 
 function isMatic(

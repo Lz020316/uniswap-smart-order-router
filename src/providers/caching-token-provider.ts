@@ -27,7 +27,7 @@ import {
   ETH_BNB,
   ITokenProvider,
   TokenAccessor,
-  USDB_BLAST,
+  USDB_BLAST, USDB_BLAST_SEPOLIA,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
   USDC_ARBITRUM_SEPOLIA,
@@ -164,6 +164,10 @@ export const CACHE_SEED_TOKENS: {
   [ChainId.BLAST]: {
     USDB: USDB_BLAST,
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.BLAST],
+  },
+  [ChainId.BLAST_SEPOLIA]: {
+    USDB: USDB_BLAST_SEPOLIA,
+    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.BLAST_SEPOLIA],
   },
   // Currently we do not have providers for Moonbeam mainnet or Gnosis testnet
 };

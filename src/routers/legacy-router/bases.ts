@@ -7,7 +7,7 @@ import {
   DAI_AVAX,
   DAI_BNB,
   DAI_MAINNET,
-  ITokenProvider, USDB_BLAST,
+  ITokenProvider, USDB_BLAST, USDB_BLAST_SEPOLIA,
   USDC_AVAX,
   USDC_BASE,
   USDC_BNB,
@@ -19,6 +19,7 @@ import {
   WMATIC_POLYGON_MUMBAI
 } from '../../providers/token-provider';
 import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
+
 
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[];
@@ -76,6 +77,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
     [ChainId.ZORA_SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.ZORA_SEPOLIA]!],
     [ChainId.ROOTSTOCK]: [WRAPPED_NATIVE_CURRENCY[ChainId.ROOTSTOCK]!],
     [ChainId.BLAST]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST]!, USDB_BLAST],
+    [ChainId.BLAST_SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.BLAST_SEPOLIA]!, USDB_BLAST_SEPOLIA],
   };
 };
 

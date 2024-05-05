@@ -1,6 +1,6 @@
 import {
-  ChainId,
   CHAIN_TO_ADDRESSES_MAP,
+  ChainId,
   SWAP_ROUTER_02_ADDRESSES as SWAP_ROUTER_02_ADDRESSES_HELPER,
   Token,
 } from '@uniswap/sdk-core';
@@ -62,6 +62,7 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_GOERLI].quoterAddress,
   [ChainId.BASE]: CHAIN_TO_ADDRESSES_MAP[ChainId.BASE].quoterAddress,
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].quoterAddress,
+  [ChainId.BLAST_SEPOLIA]: '0xC043DBC16FfcAc1ac19FAf3925AD58d359817F31'
   // TODO: Gnosis + Moonbeam contracts to be deployed
 };
 
@@ -77,14 +78,10 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.POLYGON_MUMBAI]: '0x60e06b92bC94a665036C26feC5FF2A92E2d04c5f',
   [ChainId.BASE]: '0x222cA98F00eD15B1faE10B61c277703a194cf5d2',
   [ChainId.BLAST]: '0x9D0F15f2cf58655fDDcD1EE6129C547fDaeD01b1',
+  [ChainId.BLAST_SEPOLIA]: '0x7C4FCB60d3Bf1C23C7A91bA66793aea2aa4F615C',
 };
 
-export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {
-  [ChainId.MAINNET]:
-    CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].v1MixedRouteQuoterAddress,
-  [ChainId.GOERLI]:
-    CHAIN_TO_ADDRESSES_MAP[ChainId.GOERLI].v1MixedRouteQuoterAddress,
-};
+export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {};
 
 export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   ...constructSameAddressMap('0x1F98415757620B543A52E61c46B32eB19261F984'),
@@ -107,6 +104,8 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_GOERLI].multicallAddress,
   [ChainId.BASE]: CHAIN_TO_ADDRESSES_MAP[ChainId.BASE].multicallAddress,
   [ChainId.BLAST]: CHAIN_TO_ADDRESSES_MAP[ChainId.BLAST].multicallAddress,
+  [ChainId.BLAST_SEPOLIA]: '0xFA8fD4CAc93c3B398FD2e854CC2cCdbA8dFC94B1',
+  // [ChainId.BLAST_SEPOLIA]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   // TODO: Gnosis + Moonbeam contracts to be deployed
 };
 
@@ -241,7 +240,14 @@ export const WETH9: {
     18,
     'WETH',
     'Wrapped Ether'
-  )
+  ),
+  [ChainId.BLAST_SEPOLIA]: new Token(
+    ChainId.BLAST_SEPOLIA,
+    '0x4200000000000000000000000000000000000023',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
 };
 
 export const BEACON_CHAIN_DEPOSIT_ADDRESS =

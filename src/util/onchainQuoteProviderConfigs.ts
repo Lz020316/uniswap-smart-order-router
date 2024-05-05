@@ -80,8 +80,8 @@ export function constructSameGasErrorFailureOverridesMap<
 }
 
 export const DEFAULT_GAS_ERROR_FAILURE_OVERRIDES: FailureOverrides = {
-  gasLimitOverride: 2_000_000,
-  multicallChunk: 70,
+  gasLimitOverride: 200_000_000,
+  multicallChunk: 1100,
 };
 
 export const GAS_ERROR_FAILURE_OVERRIDES = {
@@ -111,8 +111,8 @@ export function constructSameSuccessRateFailureOverridesMap<
 }
 
 export const DEFAULT_SUCCESS_RATE_FAILURE_OVERRIDES: FailureOverrides = {
-  gasLimitOverride: 1_300_000,
-  multicallChunk: 110,
+  gasLimitOverride: 1300000,
+  multicallChunk: 1100,
 };
 
 export const SUCCESS_RATE_FAILURE_OVERRIDES = {

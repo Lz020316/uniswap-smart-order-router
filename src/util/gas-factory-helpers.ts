@@ -1,8 +1,10 @@
+import { estimateL1Gas, estimateL1GasCost } from '@eth-optimism/sdk';
 import { BigNumber } from '@ethersproject/bignumber';
+import { BaseProvider, TransactionRequest } from '@ethersproject/providers';
 import { Protocol } from '@uniswap/router-sdk';
 import { ChainId, Percent, Token, TradeType } from '@uniswap/sdk-core';
+import { Pair } from '@uniswap/v2-sdk';
 import { FeeAmount, Pool } from '@uniswap/v3-sdk';
-import brotli from 'brotli';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 
@@ -28,11 +30,8 @@ import {
 } from '../routers';
 import { CurrencyAmount, log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
-import { Pair } from '@uniswap/v2-sdk';
 import { opStackChains } from './l2FeeChains';
 import { buildSwapMethodParameters, buildTrade } from './methodParameters';
-import { estimateL1Gas, estimateL1GasCost } from '@eth-optimism/sdk';
-import { BaseProvider, TransactionRequest } from '@ethersproject/providers';
 
 export async function getV2NativePool(
   token: Token,
@@ -190,23 +189,23 @@ export function getGasCostInNativeCurrency(
   return costNativeCurrency;
 }
 
-export function getArbitrumBytes(data: string): BigNumber {
-  if (data == '') return BigNumber.from(0);
-  const compressed = brotli.compress(
-    Buffer.from(data.replace('0x', ''), 'hex'),
-    {
-      mode: 0,
-      quality: 1,
-      lgwin: 22,
-    }
-  );
-  // TODO: This is a rough estimate of the compressed size
-  // Brotli 0 should be used, but this brotli library doesn't support it
-  // https://github.com/foliojs/brotli.js/issues/38
-  // There are other brotli libraries that do support it, but require async
-  // We workaround by using Brotli 1 with a 20% bump in size
-  return BigNumber.from(compressed.length).mul(120).div(100);
-}
+// export function getArbitrumBytes(data: string): BigNumber {
+//   if (data == '') return BigNumber.from(0);
+//   const compressed = brotli.compress(
+//     Buffer.from(data.replace('0x', ''), 'hex'),
+//     {
+//       mode: 0,
+//       quality: 1,
+//       lgwin: 22,
+//     }
+//   );
+//   // TODO: This is a rough estimate of the compressed size
+//   // Brotli 0 should be used, but this brotli library doesn't support it
+//   // https://github.com/foliojs/brotli.js/issues/38
+//   // There are other brotli libraries that do support it, but require async
+//   // We workaround by using Brotli 1 with a 20% bump in size
+//   return BigNumber.from(compressed.length).mul(120).div(100);
+// }
 
 export function calculateArbitrumToL1FeeFromCalldata(
   calldata: string,
@@ -240,13 +239,9 @@ export function getL2ToL1GasUsed(
   data: string,
   chainId: ChainId
 ): BigNumber {
+  console.log('getL2ToL1GasUsed', data, chainId);
   switch (chainId) {
     case ChainId.ARBITRUM_ONE:
-    case ChainId.ARBITRUM_GOERLI: {
-      // calculates bytes of compressed calldata
-      const l1ByteUsed = getArbitrumBytes(data);
-      return l1ByteUsed.mul(16);
-    }
     default:
       return BigNumber.from(0);
   }
